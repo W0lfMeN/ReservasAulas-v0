@@ -14,7 +14,7 @@ import java.util.Objects;
 public class Permanencia {
     private Tramo tramo;
     private LocalDate dia;
-    private static final DateTimeFormatter FORMATO_DIA=DateTimeFormatter.ofPattern("dd/mm/aaaa");
+    private static final DateTimeFormatter FORMATO_DIA=DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     /**
      *
@@ -34,15 +34,15 @@ public class Permanencia {
         if(p==null){
             throw new IllegalArgumentException("No se puede copiar una permanencia nula.");
         }
-        setDia(p.getDia());
-        setTramo(p.getTramo());
+        setDia(p.dia);
+        setTramo(p.tramo);
     }
     
     public Tramo getTramo() {
         return tramo;
     }
 
-    public void setTramo(Tramo tramo) {
+    private void setTramo(Tramo tramo) {
         if(tramo==null){
             throw new IllegalArgumentException("El tramo de una permanencia no puede ser nulo.");
         }
@@ -50,21 +50,21 @@ public class Permanencia {
     }
 
     public LocalDate getDia() {
-        return dia;
+        return LocalDate.of(dia.getYear(), dia.getMonth(), dia.getDayOfMonth());
     }
 
-    public void setDia(LocalDate dia) {
+    private void setDia(LocalDate dia) {
         if(dia==null){
             throw new IllegalArgumentException("El día de una permanencia no puede ser nulo.");
         }
-        this.dia = LocalDate.of(dia.getDayOfMonth(), dia.getMonth(), dia.getYear());
+        this.dia = LocalDate.of(dia.getYear(), dia.getMonth(), dia.getDayOfMonth());
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 23 * hash + Objects.hashCode(this.tramo);
-        hash = 23 * hash + Objects.hashCode(this.dia);
+        int hash = 7;
+        hash = 31 * hash + Objects.hashCode(this.tramo);
+        hash = 31 * hash + Objects.hashCode(this.dia);
         return hash;
     }
 
@@ -80,11 +80,15 @@ public class Permanencia {
             return false;
         }
         final Permanencia other = (Permanencia) obj;
+        if (this.tramo != other.tramo) {
+            return false;
+        }
         if (!Objects.equals(this.dia, other.dia)) {
             return false;
         }
         return true;
     }
+
 
     @Override
     public String toString() {

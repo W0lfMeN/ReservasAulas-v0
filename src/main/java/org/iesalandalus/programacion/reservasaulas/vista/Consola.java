@@ -49,12 +49,13 @@ public class Consola {
         
     }
     
-    public static void elegirOpcion(){
+    public static int elegirOpcion(){
         int opcion;
         do{
             System.out.println("Introduce una opción");
             opcion=Entrada.entero();
-        }while(opcion>0 && opcion<15);
+        }while(!Opcion.esOrdinalValido(opcion));
+        return opcion;
     }
     
     public static Aula leerAula(){

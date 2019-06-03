@@ -5,6 +5,10 @@
  */
 package org.iesalandalus.programacion.reservasaulas.vista;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.OperationNotSupportedException;
+
 /**
  *
  * @author carlo
@@ -17,12 +21,20 @@ public enum Opcion {
     },
     INSERTAR_AULA("Insertar aula:"){
         public void ejecutar(){
-            vista.insertarAula();
+            try {
+                vista.insertarAula();
+            } catch (OperationNotSupportedException ex) {
+                Logger.getLogger(Opcion.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     },
     BORRAR_AULA("Borrar aula:"){
         public void ejecutar(){
-            vista.borrarAula();
+            try {
+                vista.borrarAula();
+            } catch (OperationNotSupportedException ex) {
+                Logger.getLogger(Opcion.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     },
     BUSCAR_AULA("Buscar aula:"){
@@ -32,17 +44,25 @@ public enum Opcion {
     },
     LISTAR_AULAS("Listar aulas:"){
         public void ejecutar(){
-            vista.listarAulas();
+            vista.listarAula();
         }
     },
     INSERTAR_PROFESOR("Insertar profesor:"){
         public void ejecutar(){
-            vista.insertarProfesor();
+            try {
+                vista.insertarProfesor();
+            } catch (OperationNotSupportedException ex) {
+                Logger.getLogger(Opcion.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     },
     BORRAR_PROFESOR("Borrar profesor:"){
         public void ejecutar(){
-            vista.borrarProfesor();
+            try {
+                vista.borrarProfesor();
+            } catch (OperationNotSupportedException ex) {
+                Logger.getLogger(Opcion.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     },
     BUSCAR_PROFESOR("Buscar profesor:"){
@@ -52,17 +72,21 @@ public enum Opcion {
     },
     LISTAR_PROFESORES("Listar profesor:"){
         public void ejecutar(){
-            vista.listarProfesores();
+            vista.listarProfesor();
         }
     },
     INSERTAR_RESERVA("Insertar reserva:"){
         public void ejecutar(){
-            vista.realizarReserva();
+            vista.comenzar();
         }
     },
     BORRAR_RESERVA("Borrar reserva:"){
         public void ejecutar(){
-            vista.anularReserva();
+            try {
+                vista.anularReserva();
+            } catch (OperationNotSupportedException ex) {
+                Logger.getLogger(Opcion.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     },
     LISAR_RESERVAS("Listar reservas:"){
@@ -70,19 +94,19 @@ public enum Opcion {
             vista.listarReservas();
         }
     },
-    LISTAR_RESERVAS_AULA("Listar reservas por aula:"){
+    LISTAR_RESERVAS_AULA("Listar reservas aula:"){
         public void ejecutar(){
-            vista.listarReservasAula();
+            vista.listarReservasAulas();
         }
     },
     LISTAR_RESERVAS_PROFESOR("Listar reservas por profesor:"){
         public void ejecutar(){
-            vista.listarReservaProfesor();
+            vista.listarReservasProfesor();
         }
     },
     LISTAR_RESERVAS_PERMANENCIA("Listar reservas por permanencia:"){
         public void ejecutar(){
-            vista.listarReservaPermanencia();
+            vista.listarReservasPermanencia();
         }
     },
     CONSULTAR_DISPONIBILIDAD("Consultar disponibilidad"){
@@ -90,13 +114,12 @@ public enum Opcion {
             vista.consultarDisponibilidad();
         }
     };
-    
+
     private String mensajeAMostrar;
     private static IUTextual vista;
     
     private Opcion(String mensajeAMostrar){
         this.mensajeAMostrar=mensajeAMostrar;
-        setVista(new IUTextual());
     }
     
     public String getMensaje(){
@@ -105,8 +128,8 @@ public enum Opcion {
     
     public abstract void ejecutar();
     
-    protected static void setVista(IUTextual iutextual){
-        vista=iutextual;
+    protected static void setVista(IUTextual vista){
+        Opcion.vista=vista;
     }
 
     @Override
@@ -115,16 +138,13 @@ public enum Opcion {
     }
     
     public static Opcion getOpcionSegunOrdinal(int ordinal){
-        return Opcion.values()[ordinal];
-    }
-    
-    public static boolean esOrdinalValido(int ordinal){
-        if(ordinal>0 && ordinal<Opcion.values().length){
-            return true;
+        if(esOrdinalValido(ordinal)){
+            return values()[ordinal];
+        }else{
+            throw new IllegalArgumentException("El ordinal no es valido");
         }
-        return false;
     }
-    
-    
-    
+    public static boolean esOrdinalValido(int ordinal){
+        return (ordinal>=0 && ordinal<=values().length -1);
+    }
 }

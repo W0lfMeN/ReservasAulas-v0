@@ -1,7 +1,15 @@
 package org.iesalandalus.programacion.reservasaulas.modelo.dao;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.fail;
+import static org.junit.Assert.assertNotEquals;
+import javax.naming.OperationNotSupportedException;
+import static junit.framework.Assert.assertFalse;
+import org.iesalandalus.programacion.reservasaulas.modelo.dominio.Profesor;
+import org.junit.Test;
 
 public class ProfesoresTest {
-/*	
+
 	private static final String NOMBRE_PROFESOR1 = "José Ramón";
 	private static final String NOMBRE_PROFESOR2 = "Andrés";
 	private static final String NOMBRE_PROFESOR3 = "Begoña";
@@ -235,5 +243,5 @@ public class ProfesoresTest {
 		assertEquals(profesor2.toString(), representacion[1]);
 		assertEquals(profesor3.toString(), representacion[2]);
 	}
-*/
+
 }
